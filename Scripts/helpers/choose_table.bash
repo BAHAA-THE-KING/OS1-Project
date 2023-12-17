@@ -1,17 +1,36 @@
 #!/bin/bash
 
-#get db name
+#param $1 DB name
 dbName=$1
 
 #get tables
-cd /OS1-Project/Databases/$dbName
+cd /OS1-Project/Databases/$dbName/
 
 #view tables with numbers
-ls | nl
+j=0
+for table in *
+do
+  if [ $table == "$dbName.config" ]; then
+  	continue
+  fi
+  ((j=j+1))
+  echo "$j - $table"
+done
 
 #let user choose
 echo 'Choose A Table:'
 read tableName
 
 #return the choosed table name
-ls | nl | grep $tableName | cut -f2-
+j=0
+for table in *
+do
+  if [ $table == "$dbName.config" ]; then
+  	continue
+  fi
+  ((j=j+1))
+  if [ $j -eq $tableName ];then
+	echo $table
+	exit 0
+  fi
+done
