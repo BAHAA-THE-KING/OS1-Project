@@ -1,6 +1,7 @@
 #!/bin/bash
+source ~/OS1-Project/project_init.sh
 #get dbs
-cd ../../Databases
+cd $DATABASES_PATH
 #filter dbs
 user=$(whoami)
 list=( )

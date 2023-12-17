@@ -1,8 +1,9 @@
 #!/bin/bash
+source ~/OS1-Project/project_init.sh
 #get db name
 dbName=$1
 #get tables
-cd ../../Databases/$dbName
+cd $DATABASES_PATH/$dbName
 #view tables with numbers
 ls | nl
 #let user choose

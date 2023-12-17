@@ -1,10 +1,9 @@
-#replce this with call to bahaa's script
-dbName="negar"
+source ~/OS1-Project/project_init.sh
+#replace this with call to bahaa's script
+dbName="popopopo"
 
 
-
-
-sh helpers/UserCanEditDB.sh "$dbName"
+sh $HELPERS_PATH/UserCanEditDB.sh "$dbName"
 
 if [ $? -eq 0 ]; then
     # Add your commands here if the condition is true
@@ -14,7 +13,7 @@ else
     exit 1
 fi
 
-folder_path="../Databases/$dbName"
+folder_path="$DATABASES_PATH/$dbName"
 
 if [ -d "$folder_path" ]; then
     # Iterate over all .txt files in the folder
