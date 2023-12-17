@@ -5,7 +5,7 @@ operation=$1
 
 #get dbs
 cd /OS1-Project/Databases/
-
+ls
 #filter dbs
 user=$(whoami)
 list=( )
