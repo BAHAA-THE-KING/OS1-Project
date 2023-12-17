@@ -8,8 +8,9 @@ getUserType(){
 	local user=$1
 	local owner=$2
 	local dbname=$3
+	
 	#if user is admin
-	if grep $user "../admins.txt"; then
+	if grep -q $user "../admins.txt"; then
 		return 1
 	#if user is owner
 	elif [ $user == $owner ]; then
@@ -28,7 +29,7 @@ cd /OS1-Project/Databases/
 
 #filter dbs
 user=$(whoami)
-list=( )
+list=()
 for folder in *
 do
     if [ -d $folder ]; then
@@ -39,7 +40,7 @@ do
 	
 	case $operation in
 	1)
-	   echo "You Are Creating DataBases, Why See The Old ???"
+	   echo "You Are Creating DataBases, Why See The Old Ones ???"
 	   exit 1;
 	   ;;
 	2 | 3 | 4 | 5 | 6 | 9 | 10 | 11)
@@ -73,9 +74,14 @@ do
 done
 
 #view db with numbers
+if [ ${#list[@]} -eq 0 ];then
+   echo "No DBs Available"
+   exit 1
+fi
+
 i=0
 j=0
-for elm in list
+for elm in ${list[@]}
 do
   ((j=j+1))
   echo "$j - ${list[i]}"
@@ -89,7 +95,7 @@ read dbNum
 #return the choosed table name
 i=0
 j=0
-for elm in list
+for elm in ${list[@]}
 do
   ((j=j+1))
   if [ $j -eq $dbNum ]; then
