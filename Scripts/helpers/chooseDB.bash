@@ -25,7 +25,6 @@ getUserType(){
 
 #get dbs
 cd /OS1-Project/Databases/
-
 #filter dbs
 user=$(whoami)
 list=( )
