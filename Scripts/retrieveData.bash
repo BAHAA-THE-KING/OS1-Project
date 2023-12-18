@@ -16,8 +16,10 @@ if [ $? -ne 0 ]; then
 fi
 table_name=$(< /OS1-Project/tmp/selected_table.txt)
 
+echo $table_name "tunghtrni"
+
 metadataPath="/OS1-Project/Databases/$dbName/$dbName.config"
-data_file="/OS1-Project/Databases/$dbName/$table_name"
+data_file="/OS1-Project/Databases/$dbName/$table_name.txt"
 
 # Check if the file exists
 if [ ! -f "$data_file" ]; then
@@ -33,7 +35,7 @@ printf "| %-10s " "${columns[@]}"
 echo "|"
 
 # Print separator line
-separator_line=$(printf "+%*s+" $((${#columns[@]} * 12)))
+separator_line=$(printf "+%*s+" $((${#columns[@]} * 12 +(${#columns[@]}-1))))
 echo "${separator_line// /-}"
 
 # Use grep to filter data based on user-provided pattern

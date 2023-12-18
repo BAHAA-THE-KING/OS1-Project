@@ -24,8 +24,7 @@ do
 done
 
 #let user choose
-echo 'Choose A Table:'
-read tableName
+read -p 'Choose A Table: ' tableName
 # Specify the directory path
 tmp_dir="/OS1-Project/tmp"
 
@@ -48,7 +47,6 @@ do
   fi
   ((j=j+1))
   if [ $j -eq $tableName ];then
-	echo ${table%.txt}
   	echo ${table%.txt} > /OS1-Project/tmp/selected_table.txt
 	exit 0
   fi

@@ -10,7 +10,7 @@ getUserType(){
 	local dbname=$3
 	
 	#if user is admin
-	if grep -q $user "../admins.txt"; then
+	if grep -q $user "/OS1-Project/admins.txt"; then
 		return 1
 	#if user is owner
 	elif [ $user == $owner ]; then
@@ -89,8 +89,7 @@ do
 done
 
 #let user choose
-echo 'Choose A DB:'
-read dbNum
+read -p "Choose A DB: " dbNum 
 
 # Specify the directory path
 tmp_dir="/OS1-Project/tmp"
