@@ -34,3 +34,9 @@ done
 echo ${row%?} >> ../Databases/$db/$table
 
 echo row added successfully with id: $id.
+
+
+
+# Assuming log.bash is in the same directory
+bash log.bash "insert" $db
+
