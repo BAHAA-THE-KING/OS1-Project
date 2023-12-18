@@ -43,7 +43,7 @@ do
   ((j=j+1))
   if [ $j -eq $tableName ];then
 	echo $table
-  echo $table > OS1-Project/tmp/selected_Table.txt
+  echo $table > /OS1-Project/tmp/selected_Table.txt
 	exit 0
   fi
 done
