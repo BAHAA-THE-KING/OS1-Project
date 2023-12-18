@@ -1,5 +1,5 @@
 #!/bin/bash
-source ~/OS1-Project/project_init.sh
+source /OS1-Project/project_init.sh
 dbName=$1
 table_name=$2
 

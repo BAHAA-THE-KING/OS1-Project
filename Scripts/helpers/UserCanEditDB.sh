@@ -1,5 +1,5 @@
 #!/bin/bash
-source ~/OS1-Project/project_init.sh
+source /OS1-Project/project_init.sh
 if [ "$#" -ne 1 ]; then
     echo "Error: DB name argument required."
     exit 1

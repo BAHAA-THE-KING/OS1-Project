@@ -1,4 +1,5 @@
-source ~/OS1-Project/project_init.sh
+source /OS1-Project/project_init.sh
+
 #dbName=sudo bash helpers/chooseDB.bash;
 dbName="popopopo"
 
