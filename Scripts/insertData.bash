@@ -9,6 +9,8 @@ db_name="/OS1-Project/tmp/selected_db.txt"
 db=$(<$db_name)
 db_dir="../Databases/$db"
 
+echo -e "Tables:\n ---->"
+
 bash helpers/choose_table.bash $db
 table_name="/OS1-Project/tmp/selected_Table.txt"
 table=$(<$table_name)
@@ -22,9 +24,10 @@ id=$(($last_id+1))
 
 row=$id,
 
+echo -e "enter data: \n------>"
 for column in ${columns[@]}
 do
-	echo -e enter $column:
+	echo  $column:
 	read data
 	row+=$data,
 done
