@@ -4,6 +4,10 @@ echo -e you can insert data into these DBs:
 echo --------------------------------------
 
 bash helpers/chooseDB.bash 6
+if [ $? -ne 0 ];then
+	echo Error, Error Code $?
+	exit 1;
+fi
 
 db_name="/OS1-Project/tmp/selected_db.txt"
 db=$(<$db_name)
@@ -31,7 +35,7 @@ do
 	read data
 	row+=$data,
 done
-echo ${row%?} >> ../Databases/$db/$table
+echo ${row%?} >> ../Databases/$db/$table.txt
 
 echo row added successfully with id: $id.
 
