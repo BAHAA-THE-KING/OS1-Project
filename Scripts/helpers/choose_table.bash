@@ -1,11 +1,10 @@
 #!/bin/bash
-
-#param $1 DB name
+source ~/OS1-Project/project_init.sh
+#get db name
 dbName=$1
 
 #get tables
-cd /OS1-Project/Databases/$dbName/
-
+cd $DATABASES_PATH/$dbName
 #view tables with numbers
 j=0
 for table in *
