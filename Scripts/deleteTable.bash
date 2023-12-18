@@ -36,6 +36,13 @@ bash helpers/choose_table.bash "$db_name"
 if [ -e "$table" ]; then
     # Read the content of the file into a variable
     table_name=$(<"$table")
+    # Specify the file path
+config_file="/OS1-Project/Databases/${db_name}/${db_name}.config"
+# Specify the string to search for
+
+
+# Use sed to delete lines starting with the specified string
+sudo sed -i "/^$table_name/d" "$config_file"
 else
     echo "File '$table' not found."
     exit 1
