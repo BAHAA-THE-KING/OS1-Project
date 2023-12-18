@@ -111,9 +111,7 @@ for elm in ${list[@]}
 do
   ((j=j+1))
   if [ $j -eq $dbNum ]; then
-  	echo ${list[i]}
-	echo ${list[i]} > /OS1-Project/tmp/selected_db.txt
-
+	echo ${list[i]} > "/OS1-Project/tmp/selected_db.txt"
   	exit 0
   fi
   ((i=i+1))

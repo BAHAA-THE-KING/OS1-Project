@@ -5,10 +5,11 @@ dbName=$1
 
 #get tables
 cd /OS1-Project/Databases/$dbName/
+tables=*
 
 #view tables with numbers
 j=0
-for table in *
+for table in ${#tables[@]}
 do
   if [ $table == "$dbName.config" ]; then
   	continue
@@ -35,7 +36,7 @@ fi
 
 #return the choosed table name
 j=0
-for table in *
+for table in ${#tables[@]}
 do
   if [ $table == "$dbName.config" ]; then
   	continue
@@ -43,7 +44,7 @@ do
   ((j=j+1))
   if [ $j -eq $tableName ];then
 	echo $table
-  echo $table > OS1-Project/tmp/selected_Table.txt
+  echo $table > /OS1-Project/tmp/selected_Table.txt
 	exit 0
   fi
 done
