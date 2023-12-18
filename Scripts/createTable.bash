@@ -48,3 +48,5 @@ touch /OS1-Project/Databases/$dbName/$table_name.txt;
 echo "$table_name: $column_names_csv" >>/OS1-Project/Databases/$dbName/$dbName.config
 
 echo $column_names_csv > /OS1-Project/Databases/$dbName/$table_name.txt
+
+bash log.bash "create" $dbName

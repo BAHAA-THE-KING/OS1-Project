@@ -23,3 +23,4 @@ else
 echo "type: private" >> $metadatapath
 fi
 echo "owner: $(whoami)" >> $metadatapath 
+bash log.bash "create" $name

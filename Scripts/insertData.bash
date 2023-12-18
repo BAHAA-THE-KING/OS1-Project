@@ -23,7 +23,7 @@ tb=$(cat ../Databases/$db/$db.config | grep $table )
 
 columns=$(echo "$tb" | awk -F': id' '{print $2}' | tr ',' '\n')
 
-last_id=$(tail -n 1 $db_dir/$table | cut -d',' -f1)
+last_id=$(tail -n 1 $db_dir/$table.txt | cut -d',' -f1)
 id=$(($last_id+1))
 
 row=$id,
@@ -38,3 +38,9 @@ done
 echo ${row%?} >> ../Databases/$db/$table.txt
 
 echo row added successfully with id: $id.
+
+
+
+# Assuming log.bash is in the same directory
+bash log.bash "insert" $db
+

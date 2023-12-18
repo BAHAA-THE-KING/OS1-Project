@@ -15,7 +15,9 @@ if [ "$file_count" -gt 2 ]; then
     echo "This DB has tables , DELETE them then try again"
 else 
     cd ../
+    bash log.bash "delete" $selected_db
     rm -rd $selected_db
     sudo groupdel $selected_db
     echo "THE DB = $selected_db DELETED SUCCESSFULLY" 
 fi
+
