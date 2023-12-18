@@ -1,24 +1,23 @@
 #!/bin/bash
 
-dbName=$1
-table_name=$2
-
-get_columns() {
-    metadataPath="/OS1-Project/Databases/$dbName/$dbName.config";
-    line=$(grep $table_name $metadataPath);
-    IFS='=' read -r -a columns <<< "${line#*=}"
-    #columns=$(awk -F':' -v table="$table_name"  '$1 ~ table && NF > 1 {gsub(/^[ \t]+|[ \t]+$/, "", $2); print $2}' "$metadataPath")
-    echo "$columns"
-}
-columns=$(get_columns)
-if [ -n "$columns" ]; then
-    echo "Columns of $table_name: $columns"
-else
-    echo "Table not found."
+# Get DB Name
+bash /OS1-Project/Scripts/helpers/chooseDB.bash 5
+if [ $? -ne 0 ]; then
+  echo "Error, Error Code $?"
+  exit 1
 fi
+dbName=$(< /OS1-Project/tmp/selected_db.txt)
 
-data_file="/OS1-Project/Databases/$dbName/$table_name.txt"
+# Run choose_table.bash with $db_name argument
+bash /OS1-Project/Scripts/helpers/choose_table.bash "$dbName"
+if [ $? -ne 0 ]; then
+  echo "Error, Error Code $?"
+  exit 1
+fi
+table_name=$(< /OS1-Project/tmp/selected_table.txt)
 
+metadataPath="/OS1-Project/Databases/$dbName/$dbName.config"
+data_file="/OS1-Project/Databases/$dbName/$table_name"
 
 # Check if the file exists
 if [ ! -f "$data_file" ]; then
@@ -26,20 +25,25 @@ if [ ! -f "$data_file" ]; then
     exit 1
 fi
 
+# Read the columns from the first line of the data file
+IFS=',' read -r -a columns < <(head -n 1 "$data_file")
+
 # Print table header with dynamically adjusted column widths
 printf "| %-10s " "${columns[@]}"
 echo "|"
 
 # Print separator line
-separator_line=$(printf "|%*s|" $((${#columns[@]} * 12)) "")
+separator_line=$(printf "+%*s+" $((${#columns[@]} * 12)))
 echo "${separator_line// /-}"
 
-# Read each line and print data rows
+# Use grep to filter data based on user-provided pattern
+user_pattern="$1"  # Assuming the user provides the pattern as the third argument
+filtered_data=$(tail -n +2 "$data_file" | grep "$user_pattern")
+
+# Process each line in the filtered data and print rows
 while IFS= read -r line; do
     # Split the line into values using ',' as the delimiter
     IFS=',' read -r -a values <<< "$line"
-	printf "| %-10s " "${values[@]}"
-        echo "|"
-    
-    
-done < "$data_file"
+    printf "| %-10s " "${values[@]}"
+    echo "|"
+done <<< "$filtered_data"

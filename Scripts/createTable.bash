@@ -1,6 +1,12 @@
 #!/bin/bash
 
-dbName="popopopo"
+bash /OS1-Project/Scripts/helpers/chooseDB.bash 4
+if [ $? -ne 0 ];then
+	echo Error, Error Code $?
+	exit 1;
+fi
+
+dbName=$(< /OS1-Project/tmp/selected_db.txt)
 
 is_positive_integer() {
     re='^[0-9]+$'
@@ -12,7 +18,8 @@ is_positive_integer() {
 
 }
 # Ask the user for the table name
-read -p "Enter the table name: " table_name
+echo "Enter Table Name:"
+read table_name
 
 # Ask the user for the column count
 read -p "Enter the number of columns: " column_count
@@ -26,6 +33,7 @@ fi
 # Initialize an array to store column names
 column_names=()
 column_names+=("id")
+
 # Loop to ask the user for each column name
 for ((i = 1; i <= column_count; i++)); do
     read -p "Enter the name of column $i: " column_name
@@ -39,4 +47,4 @@ column_names_csv=$(IFS=,; echo "${column_names[*]}")
 touch /OS1-Project/Databases/$dbName/$table_name.txt;
 echo "$table_name: $column_names_csv" >>/OS1-Project/Databases/$dbName/$dbName.config
 
-ehco $column_names_csv > /OS1-Project/Databases/$dbName/$table_name.txt
+echo $column_names_csv > /OS1-Project/Databases/$dbName/$table_name.txt

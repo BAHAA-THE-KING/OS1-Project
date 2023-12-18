@@ -8,7 +8,7 @@ cd /OS1-Project/Databases/$dbName/
 
 #view tables with numbers
 fileCount=$(ls | grep -v '/$' | wc -l)
-if [ $fileCount -eq 0 ]; then
+if [ $fileCount -eq 1 ]; then
 	echo "No Tables"
 	exit 1
 fi
@@ -20,7 +20,7 @@ do
   	continue
   fi
   ((j=j+1))
-  echo "$j - $table"
+  echo "$j - ${table%.txt}"
 done
 
 #let user choose
@@ -48,8 +48,8 @@ do
   fi
   ((j=j+1))
   if [ $j -eq $tableName ];then
-	echo $table
-  	echo $table > /OS1-Project/tmp/selected_table.txt
+	echo ${table%.txt}
+  	echo ${table%.txt} > /OS1-Project/tmp/selected_table.txt
 	exit 0
   fi
 done

@@ -1,20 +1,21 @@
 #!/bin/bash
 
 #replace this with call to bahaa's script
-dbName="popopopo"
-
-
-sh /OS1-Project/Scripts/helpers/UserCanEditDB.sh "$dbName"
-
-if [ $? -eq 0 ]; then
-    # Add your commands here if the condition is true
-    :
-else
-    echo "Unallowed user!"
-    exit 1
+bash /OS1-Project/Scripts/helpers/chooseDB.bash 3
+if [ $? -ne 0 ];then
+	echo Error, Error Code $?
+	exit 1;
 fi
 
+dbName=$(< /OS1-Project/tmp/selected_db.txt)
+
 folder_path="/OS1-Project/Databases/$dbName"
+
+file_count=$(find "$folder_path" -maxdepth 1 -type f -name '*.txt' | wc -l)
+if [ $file_count -eq 0 ];then
+	echo no tables
+	exit 1
+fi
 
 if [ -d "$folder_path" ]; then
     # Iterate over all .txt files in the folder
