@@ -1,3 +1,5 @@
 Databases
 admins.txt
 tmp
+tmp/selected_Table.txt
+tmp/selected_db.txt
