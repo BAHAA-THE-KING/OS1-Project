@@ -1,6 +1,5 @@
-source /OS1-Project/project_init.sh
+#!/bin/bash
 
-#dbName=sudo bash helpers/chooseDB.bash;
 dbName="popopopo"
 
 is_positive_integer() {
@@ -37,6 +36,7 @@ done
 # Join the array elements into a comma-separated string
 column_names_csv=$(IFS=,; echo "${column_names[*]}")
 
-touch $DATABASES_PATH/$dbName/$table_name.txt;
-echo "$table_name =$column_names_csv" >>$DATABASES_PATH/$dbName/$dbName.config
+touch /OS1-Project/Databases/$dbName/$table_name.txt;
+echo "$table_name: $column_names_csv" >>/OS1-Project/Databases/$dbName/$dbName.config
 
+ehco $column_names_csv > /OS1-Project/Databases/$dbName/$table_name.txt

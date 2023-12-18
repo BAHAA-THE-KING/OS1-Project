@@ -1,10 +1,10 @@
 #!/bin/bash
-source /OS1-Project/project_init.sh
+
 dbName=$1
 table_name=$2
 
 get_columns() {
-    metadataPath="$DATABASES_PATH/$dbName/$dbName.config";
+    metadataPath="/OS1-Project/Databases/$dbName/$dbName.config";
     line=$(grep $table_name $metadataPath);
     IFS='=' read -r -a columns <<< "${line#*=}"
     #columns=$(awk -F':' -v table="$table_name"  '$1 ~ table && NF > 1 {gsub(/^[ \t]+|[ \t]+$/, "", $2); print $2}' "$metadataPath")
@@ -17,7 +17,7 @@ else
     echo "Table not found."
 fi
 
-data_file="$DATABASES_PATH/$dbName/$table_name.txt"
+data_file="/OS1-Project/Databases/$dbName/$table_name.txt"
 
 
 # Check if the file exists

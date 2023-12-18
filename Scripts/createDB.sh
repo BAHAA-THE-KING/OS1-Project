@@ -1,31 +1,25 @@
-# Other scripts
-source /OS1-Project/project_init.sh
+#!/bin/bash
 
 echo "What is the DB Name?"
-read -r name
+read name
 #TODO:Is there an existing database
 echo "Is it Public?(y or n)"
-read -r isPublic
+read isPublic
 #TODO:check that he entered y or n and not something else
 
-mkdir -p $DATABASES_PATH/$name
-if [ "$isPublic" = "y" ]; then
-chmod o=rw $DATABASES_PATH/$name;
-else
-chmod o-rx $DATABASES_PATH/$name;
-fi
+mkdir -p /OS1-Project/Databases/$name
 sudo groupadd $name
 sudo usermod -a -G $name $(whoami)
 
 while IFS= read -r admin; do
   sudo usermod -a -G $name $admin
-done < $ADMINS_PATH
+done < /OS1-Project/admins.txt
 
-metadatapath="$DATABASES_PATH/$name/$name.config"
+metadatapath="/OS1-Project/Databases/$name/$name.config"
 touch $metadatapath
 if [ "$isPublic" = "y" ]; then
-echo "public" >> $metadatapath
+echo "type: public" >> $metadatapath
 else
-echo "private" >> $metadatapath
+echo "type: private" >> $metadatapath
 fi
-echo "owner=$(whoami)" >> $metadatapath 
+echo "owner: $(whoami)" >> $metadatapath 
