@@ -1,10 +1,10 @@
 #!/bin/bash
-
-#param $1 DB name
+source ~/OS1-Project/project_init.sh
+#get db name
 dbName=$1
 
 #get tables
-cd /OS1-Project/Databases/$dbName/
+cd $DATABASES_PATH/$dbName
 tables=*
 
 #view tables with numbers
@@ -44,7 +44,7 @@ do
   ((j=j+1))
   if [ $j -eq $tableName ];then
 	echo $table
-  echo $table > /OS1-Project/tmp/selected_Table.txt
+  echo $table > OS1-Project/tmp/selected_Table.txt
 	exit 0
   fi
 done
