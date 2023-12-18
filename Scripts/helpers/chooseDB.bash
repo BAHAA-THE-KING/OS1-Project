@@ -67,6 +67,18 @@ done
 echo 'Choose A DB:'
 read dbNum
 
+# Specify the directory path
+tmp_dir="/OS1-Project/tmp"
+
+# Check if the directory exists
+if [ ! -d "$tmp_dir" ]; then
+    # If it doesn't exist, create it
+    mkdir "$tmp_dir"
+    echo "Directory '$tmp_dir' created successfully."
+	touch /OS1-Project/tmp/selected_db.txt;
+# else
+#     echo "Directory '$tmp_dir' already exists."
+fi
 #return the choosed table name
 i=0
 j=0
@@ -75,6 +87,8 @@ do
   ((j=j+1))
   if [ $j -eq $dbNum ]; then
   	echo ${list[i]}
+	echo ${list[i]} > /OS1-Project/tmp/selected_db.txt
+
   	exit 0
   fi
   ((i=i+1))
