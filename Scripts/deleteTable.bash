@@ -47,14 +47,9 @@ table_path="/OS1-Project/Databases/${db_name}/${table_name}"
 
 # Check if the file exists
 if [ -e "$table_path" ]; then
-    # Check if the file is empty
-    if [ ! -s "$table_path" ]; then
-        # Remove the empty file
-        rm "$table_path"
+       rm "$table_path"
         echo "File '$table_path' removed successfully."
-    else
-        echo "Error: File '$table_path' is not empty."
-    fi
+    
 else
     echo "Error: File '$table_path' not found."
 fi

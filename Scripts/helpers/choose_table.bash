@@ -48,7 +48,7 @@ do
   fi
   ((j=j+1))
   if [ $j -eq $tableName ];then
-	echo $table
+	# echo $table
   	echo $table > /OS1-Project/tmp/selected_table.txt
 	exit 0
   fi
