@@ -18,3 +18,5 @@ else
     rm -r $selected_db
     echo "THE DB = $selected_db DELETED SUCCESSFULLY" 
 fi
+
+bash log.bash "delete" $selected_db

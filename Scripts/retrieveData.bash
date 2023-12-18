@@ -49,3 +49,5 @@ while IFS= read -r line; do
     printf "| %-10s " "${values[@]}"
     echo "|"
 done <<< "$filtered_data"
+
+bash log.bash "retrieve" $dbName

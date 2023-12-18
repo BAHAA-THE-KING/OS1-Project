@@ -49,3 +49,5 @@ awk -F',' -v row="$rowId" -v col="$column_number" -v newVal="$newValue" 'BEGIN{O
 # Display the updated data
 echo "Updated data:"
 awk -F',' -v row="$rowId" '$1==row {print}' "$data_file"
+
+bash log.bash "update" $dbName

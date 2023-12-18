@@ -22,7 +22,6 @@ fi
     date=$(date)
     
     echo "$operation:$db_name $user:$user_type $date" >> "$log_dir/logs"
-cat $log_dir/logs
 
 
 ### we did a chmod 777 on log directory

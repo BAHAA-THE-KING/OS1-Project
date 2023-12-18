@@ -37,3 +37,5 @@ case $select_number_option in
     echo "Invalid choice"
     ;;
 esac
+bash log.bash "delete" $db_name
+
