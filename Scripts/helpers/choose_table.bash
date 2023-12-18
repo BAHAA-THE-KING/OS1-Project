@@ -20,6 +20,18 @@ done
 #let user choose
 echo 'Choose A Table:'
 read tableName
+# Specify the directory path
+tmp_dir="/OS1-Project/tmp"
+
+# Check if the directory exists
+if [ ! -d "$tmp_dir" ]; then
+    # If it doesn't exist, create it
+    mkdir "$tmp_dir"
+    echo "Directory '$tmp_dir' created successfully."
+	touch /OS1-Project/tmp/selected_Table.txt;
+# else
+#     echo "Directory '$tmp_dir' already exists."
+fi
 
 #return the choosed table name
 j=0
@@ -31,6 +43,7 @@ do
   ((j=j+1))
   if [ $j -eq $tableName ];then
 	echo $table
+  echo $table > OS1-Project/tmp/selected_Table.txt
 	exit 0
   fi
 done
