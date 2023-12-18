@@ -1,5 +1,6 @@
 # Other scripts
-source ~/OS1-Project/project_init.sh
+source /OS1-Project/project_init.sh
+
 echo "What is the DB Name?"
 read -r name
 #TODO:Is there an existing database

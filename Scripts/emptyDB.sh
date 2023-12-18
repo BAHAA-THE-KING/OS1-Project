@@ -1,4 +1,5 @@
-source ~/OS1-Project/project_init.sh
+source /OS1-Project/project_init.sh
+
 #replace this with call to bahaa's script
 dbName="popopopo"
 
