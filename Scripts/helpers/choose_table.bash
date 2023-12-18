@@ -7,6 +7,12 @@ dbName=$1
 cd /OS1-Project/Databases/$dbName/
 
 #view tables with numbers
+fileCount=$(ls | grep -v '/$' | wc -l)
+if [ $fileCount -eq 0 ]; then
+	echo "No Tables"
+	exit 1
+fi
+
 j=0
 for table in *
 do
@@ -28,7 +34,7 @@ if [ ! -d "$tmp_dir" ]; then
     # If it doesn't exist, create it
     mkdir "$tmp_dir"
     echo "Directory '$tmp_dir' created successfully."
-	touch /OS1-Project/tmp/selected_Table.txt;
+	touch /OS1-Project/tmp/selected_table.txt;
 # else
 #     echo "Directory '$tmp_dir' already exists."
 fi
@@ -43,7 +49,10 @@ do
   ((j=j+1))
   if [ $j -eq $tableName ];then
 	echo $table
-  echo $table > /OS1-Project/tmp/selected_Table.txt
+  	echo $table > /OS1-Project/tmp/selected_table.txt
 	exit 0
   fi
 done
+
+echo "Invalid Option"
+exit 1

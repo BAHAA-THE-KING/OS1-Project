@@ -17,7 +17,7 @@ bash helpers/chooseDB.bash 5
 
 # Specify the file paths
 db="/OS1-Project/tmp/selected_db.txt"
-table="/OS1-Project/tmp/selected_Table.txt"
+table="/OS1-Project/tmp/selected_table.txt"
 
 # Check if the file exists
 if [ -e "$db" ]; then
