@@ -1,7 +1,32 @@
 #!/bin/bash
-source ~/OS1-Project/project_init.sh
+
+#param $1 operation number according to order
+operation=$1
+
+#define some helpers
+getUserType(){
+	local user=$1
+	local owner=$2
+	local dbname=$3
+	
+	#if user is admin
+	if grep -q $user "../admins.txt"; then
+		return 1
+	#if user is owner
+	elif [ $user == $owner ]; then
+		return 2
+	#if user in group
+	elif groups $user | grep -q $dbname; then
+		return 3
+	#if user not in group
+	else
+		return 4
+	fi
+	}
+
 #get dbs
-cd $DATABASES_PATH
+cd /OS1-Project/Databases/
+
 #filter dbs
 user=$(whoami)
 list=()
