@@ -2,8 +2,6 @@
 sudo mkdir -p /opt/logs/
 
 
-#!/bin/bash
-
 # Log file path
 log_dir="/opt/logs"
 user_type="others"
@@ -21,7 +19,10 @@ fi
     user=$(whoami)
     date=$(date)
     
-    echo "$operation:$db_name $user:$user_type $date" >> "$log_dir/logs"
+    echo "$operation: $db_name: $user: $user_type: $date" >> "$log_dir/logs.txt"
+
+    # 0 0 * * * bash rotate_logs.bash
+
 
 
 ### we did a chmod 777 on log directory

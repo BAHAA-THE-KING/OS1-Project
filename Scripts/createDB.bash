@@ -16,6 +16,7 @@ while IFS= read -r admin; do
 done < /OS1-Project/admins.txt
 
 metadatapath="/OS1-Project/Databases/$name/$name.config"
+
 touch $metadatapath
 if [ "$isPublic" = "y" ]; then
 echo "type: public" >> $metadatapath
@@ -23,4 +24,5 @@ else
 echo "type: private" >> $metadatapath
 fi
 echo "owner: $(whoami)" >> $metadatapath 
+echo "$(whoami)" >> "/OS1-Project/owners.txt" 
 bash log.bash "create" $name
