@@ -81,7 +81,7 @@ case $choice in
 				echo "3- Monthly"
 				read  -p "Choose Time: " timing_function
 				if [ $timing_function -eq 1 ]; then
-					time='0 0 * * *'
+					time='* * * * *'
 				elif [ $timing_function -eq 2 ]; then
 					time='0 0 * * 0'
 				elif [ $timing_function -eq 3 ]; then
@@ -96,16 +96,16 @@ case $choice in
 				touch $jobFile
 				echo "#!/bin/bash" > $jobFile
 				if [ $com_choice -eq 1 ]; then
-					echo "./zipCreation.bash $dbname" >> $jobFile
+					echo "bash /OS1-Project/Jobs/zipCreation.bash $dbname" >> $jobFile
 				elif [ $com_choice -eq 2 ]; then
-					echo "./tarCreation.bash $dbname" >> $jobFile
+					echo "bash /OS1-Project/Jobs/tarCreation.bash $dbname" >> $jobFile
 				elif [ $com_choice -eq 3 ]; then
-					echo "./gzipCreation.bash $dbname" >> $jobFile
+					echo "bash /OS1-Project/Jobs/gzipCreation.bash $dbname" >> $jobFile
 				fi
 				tmp_file=$(mktemp /tmp/crontab.XXXXXX)
 				sudo crontab -l > "$tmp_file"
 				echo "$time $jobFile" >> "$tmp_file"
-				sudo dcrontab "$tmp_file"
+				sudo crontab "$tmp_file"
 				sudo rm "$tmp_file"
 				;;
 			2)
