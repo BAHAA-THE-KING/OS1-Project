@@ -73,43 +73,13 @@ do
     fi
 done
 
-#view db with numbers
-if [ ${#list[@]} -eq 0 ];then
-   echo "No DBs Available"
-   exit 1
-fi
-
-i=0
-j=0
-for elm in ${list[@]}
-do
-  ((j=j+1))
-  echo "$j - ${list[i]}"
-  ((i=i+1))
-done
-
-#let user choose
-read -p "Choose A DB: " dbNum 
-
 # Specify the directory path
 tmp_dir="/OS1-Project/tmp"
 
 # Check if the directory exists
 mkdir -p "$tmp_dir"
-touch /OS1-Project/tmp/selected_db.txt;
+touch "/OS1-Project/tmp/all_dbs.txt";
 
 #return the choosed table name
-i=0
-j=0
-for elm in ${list[@]}
-do
-  ((j=j+1))
-  if [ $j -eq $dbNum ]; then
-	echo ${list[i]} > "/OS1-Project/tmp/selected_db.txt"
-  	exit 0
-  fi
-  ((i=i+1))
-done
-
-echo "Invalid Option"
-exit 1
+echo ${list[i]} > "/OS1-Project/tmp/all_dbs.txt"
+exit 0

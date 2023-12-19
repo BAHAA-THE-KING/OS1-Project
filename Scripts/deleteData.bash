@@ -38,4 +38,3 @@ case $select_number_option in
     ;;
 esac
 bash log.bash "delete" $db_name
-
