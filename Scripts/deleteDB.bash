@@ -14,10 +14,12 @@ file_count=$(ls -l | grep -v '^d' | wc -l)
 if [ "$file_count" -gt 2 ]; then 
     echo "This DB has tables , DELETE them then try again"
 else 
+    
+    bash /OS1-Project/Scripts/log.bash "delete" $selected_db
     cd ../
-    bash log.bash "delete" $selected_db
     rm -rd $selected_db
     sudo groupdel $selected_db
     echo "THE DB = $selected_db DELETED SUCCESSFULLY" 
+  
 fi
 

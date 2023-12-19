@@ -26,8 +26,8 @@ while true; do
     read -p "Enter your choice (0-12): " choice
 
     case "$choice" in
-        1) bash createDB.bash;;
-        2) bash deleteDB.bash;;
+        1)  ./createDB.bash;;
+        2) ./deleteDB.bash;;
         3) ./emptyDB.bash ;;
         4) ./createTable.bash ;;
         5) ./deleteTable.bash ;;
