@@ -45,24 +45,23 @@ createFileAndMoveIt(){
 
 echo "Choose an option : "
 echo "1- Create a backup"
-echo "2- Restore data base"
+echo "2- Restore database"
 
 read -p "Enter ther number of your choice: " choice
 
 case $choice in 
  1)
-   bash /OS1-Project/Scripts/helpers/chooseDB.bash 10
-   if [ $? -ne 0 ];then
-     echo Error, Error Code $?
-     exit 1;
-   fi
-   dbname=$(< /OS1-Project/tmp/selected_db.txt)
-   
    echo "1- Backup now"
    echo "2- Time Backup"
    read -p "Which type of compression do you want: " com_type_choice
    case $com_type_choice in
    	1)
+		bash /OS1-Project/Scripts/helpers/chooseDB.bash 10
+		if [ $? -ne 0 ];then
+		  echo Error, Error Code $?
+		  exit 1;
+		fi
+		dbname=$(< /OS1-Project/tmp/selected_db.txt)
 		createFileAndMoveIt $dbname
 		;;
 	2)
@@ -73,6 +72,13 @@ case $choice in
 		com_choice=$?
 		case $time_BU_com_choice in
 			1)
+				bash /OS1-Project/Scripts/helpers/chooseDB.bash 10
+				if [ $? -ne 0 ];then
+				  echo Error, Error Code $?
+				  exit 1;
+				fi
+				dbname=$(< /OS1-Project/tmp/selected_db.txt)
+				
 				echo "1- Daily"
 				echo "2- Weekly"
 				echo "3- Monthly"
@@ -80,13 +86,14 @@ case $choice in
 				if [ $timing_function -eq 1 ]; then
 					time='0 0 * * *'
 				elif [ $timing_function -eq 2 ]; then
-					itme='0 0 * * 1'
+					time='0 0 * * 0'
 				elif [ $timing_function -eq 3 ]; then
-					time='0 0 1 * *'
+					time='0 0 0 * *'
 				else
 					echo "Invalid Option"
 					exit 1
 				fi
+				
 				jobFile="/OS1-Project/Jobs/$(date +"%Y%m%d_%H%M%S").bash"
 				mkdir -p /OS1-Project/Jobs
 				touch $jobFile
@@ -101,11 +108,26 @@ case $choice in
 				tmp_file=$(mktemp /tmp/crontab.XXXXXX)
 				sudo crontab -l > "$tmp_file"
 				echo "$time $jobFile" >> "$tmp_file"
-				sudo crontab "$tmp_file"
+				sudo dcrontab "$tmp_file"
 				sudo rm "$tmp_file"
 				;;
 			2)
+				read -p "Enter the date (YYYY-MM-DD): " filter_date
+
+				bash /OS1-Project/Scripts/helpers/getDBs.bash 10
+				dbs=$(cat /OS1-Project/tmp/all_dbs.txt)
 				
+				cd /OS1-Project/Databases
+				for folder in *; do
+				    if echo $dbs | grep -q -w $(basename $folder); then
+				    	if [ -d "$folder" ]; then
+						last_modified_date=$(date -r "$folder" '+%Y-%m-%d')
+						if [ "$last_modified_date" == "$filter_date" ]; then
+						createFileAndMoveIt $(basename $folder) $com_choice
+						fi
+				    	fi
+				    fi
+				done
 				;;
 			*)
 				echo "Invalid Option"
@@ -119,8 +141,72 @@ case $choice in
    echo "done"
    ;;
  2)
-   echo "resstore"
-   ;;
+   #view all DBs that the user can restore
+   bash /OS1-Project/Scripts/helpers/getDBs.bash 10
+   dbs=$(cat /OS1-Project/tmp/all_dbs.txt)
+   
+   cd /opt/backups/
+   
+   list=()
+   for folder in *; do
+    if echo $dbs | grep -q -w $(basename $folder); then
+    	if [ -d "$folder" ]; then
+		list+=($folder)
+    	fi
+    fi
+  done
+  
+  #let user choose db
+  i=0
+  j=0
+  for elm in ${list[@]}
+  do
+	((j=j+1))
+	echo "$j - ${list[i]}"
+  	((i=i+1))
+  done
+  
+  read -p "Choose DB To Restore: " dbnum
+  
+  i=0
+  j=0
+  for elm in ${list[@]}
+  do
+   	((j=j+1))
+  	if [ $j -eq $dbnum ]; then
+	 	dbname=${list[i]}
+  	fi
+	((i=i+1))
+  done
+  
+  #let the user choose the backup
+  cd /opt/backups/$dbname
+  
+  j=0
+  for file in *
+  do
+	((j=j+1))
+	echo "$j - $file"
+  done
+  
+  read -p "Choose Backup To Restore: " bkpNum
+  
+  j=0
+  for file in *
+  do
+   	((j=j+1))
+  	if [ $j -eq $bkpNum ]; then
+	 	bkpName=$file
+  	fi
+  done
+  if echo $bkpName | grep -q ".zip"; then
+  	sudo unzip $bkpName
+  elif echo $bkpName | grep -q ".tar"; then
+  unzip $bkpName
+  elif echo $bkpName | grep -q ".tar.gz"; then
+  unzip $bkpName
+  fi
+  ;;
  *)
    echo "Invalid choice"
    ;;   
