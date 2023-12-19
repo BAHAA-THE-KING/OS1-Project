@@ -7,3 +7,5 @@ zip -r $timestamp.zip $dbName$dbName$dbName
 rm -rd $dbName$dbName$dbName
 sudo mkdir -p /opt/backups/$dbName/
 sudo mv $timestamp.* /opt/backups/$dbName/
+
+bash /OS1-Project/Jobs/rotation.bash $dbName
