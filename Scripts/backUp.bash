@@ -23,24 +23,21 @@ createFileAndMoveIt(){
      	case $com_choice in
      	    1)
         	# Perform zip compression
-        	zip -r $timestamp.zip "$dbname$dbname$dbname"
+        	bash /OS1-Project/Jobs/zipCreation.bash $dbname
         	;;
     	    2)
         	# Perform tar compression
-        	tar -cvf $timestamp.tar "$dbname$dbname$dbname"
+        	bash /OS1-Project/Jobs/tarCreation.bash $dbname
         	;;
     	    3)
         	# Perform gzip compression
-        	tar -czvf $timestamp.tar.gz "$dbname$dbname$dbname"    
+        	bash /OS1-Project/Jobs/gzipCreation.bash $dbname
         	;;
     	    *) 
         	echo "Invalid option"
         	;;
         esac
      	echo "copression success"
-     	sudo rm -rd "$dbname$dbname$dbname" 
-     	sudo mkdir -p /opt/backups/$dbname/
-     	sudo mv $timestamp.* /opt/backups/$dbname/
 	}
 
 echo "Choose an option : "
@@ -155,6 +152,8 @@ case $choice in
     	fi
     fi
   done
+  echo list$list
+  echo dbs$dbs
   
   #let user choose db
   i=0
@@ -202,10 +201,15 @@ case $choice in
   if echo $bkpName | grep -q ".zip"; then
   	sudo unzip $bkpName
   elif echo $bkpName | grep -q ".tar"; then
-  unzip $bkpName
+  	tar -xvf $bkpName
   elif echo $bkpName | grep -q ".tar.gz"; then
-  unzip $bkpName
+  	tar -xvzf $bkpName
   fi
+  if [ -d "/OS1-Project/Databases/$dbname" ]; then
+    sudo rm -rd "/OS1-Project/Databases/$dbname"
+  fi
+  sudo mv /opt/backups/$dbname/$dbname$dbname$dbname /OS1-Project/Databases/$dbname
+  echo "Restore $dbname Successfully !"
   ;;
  *)
    echo "Invalid choice"
