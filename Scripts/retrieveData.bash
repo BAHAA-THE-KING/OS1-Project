@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Get DB Name
 bash /OS1-Project/Scripts/helpers/chooseDB.bash 5
 if [ $? -ne 0 ]; then
@@ -8,16 +7,16 @@ if [ $? -ne 0 ]; then
 fi
 dbName=$(< /OS1-Project/tmp/selected_db.txt)
 
-# Run choose_table.bash with $db_name argument
+# get the selected table
 bash /OS1-Project/Scripts/helpers/choose_table.bash "$dbName"
 if [ $? -ne 0 ]; then
   echo "Error, Error Code $?"
   exit 1
 fi
 table_name=$(< /OS1-Project/tmp/selected_table.txt)
-
-echo $table_name "tunghtrni"
-
+# get the pattern to search on
+read -p "Enter your search pattern: " pattern
+#uris variables (helper)
 metadataPath="/OS1-Project/Databases/$dbName/$dbName.config"
 data_file="/OS1-Project/Databases/$dbName/$table_name.txt"
 
@@ -39,7 +38,7 @@ separator_line=$(printf "+%*s+" $((${#columns[@]} * 12 +(${#columns[@]}-1))))
 echo "${separator_line// /-}"
 
 # Use grep to filter data based on user-provided pattern
-user_pattern="$1"  # Assuming the user provides the pattern as the third argument
+user_pattern="$pattern"  
 filtered_data=$(tail -n +2 "$data_file" | grep "$user_pattern")
 
 # Process each line in the filtered data and print rows
@@ -51,3 +50,7 @@ while IFS= read -r line; do
 done <<< "$filtered_data"
 
 bash log.bash "retrieve" $dbName
+
+
+
+
